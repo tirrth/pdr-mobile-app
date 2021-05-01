@@ -11,7 +11,7 @@ import Ripple from 'react-native-material-ripple';
 import {
   UNIVERSAL_ENTRY_POINT_ADDRESS,
   API_GET_INDIVIDUAL_ORDER_KEY,
-  API_UPDATE_ORDER_ITEM_STATUS_KEY,
+  API_UPDATE_ORDER_ITEM_STAUTS_KEY,
   API_RESPONSE_TO_RETURN_REQUEST_KEY,
 } from '@env';
 import {ActivityIndicator} from 'react-native';
@@ -90,7 +90,7 @@ export default class OrderDetails extends Component {
     this._getIndividiualOrderData();
   }
 
-  _highlightOrderItem = want_highlighted_background => {
+  _highlightOrderItem = (want_highlighted_background) => {
     const {orderProductDetails: product_details} = this.state;
     let {highlighted_order_item_uuid} = this.props.route.params;
     product_details.map((order_item, index) => {
@@ -123,7 +123,7 @@ export default class OrderDetails extends Component {
     }
   };
 
-  _scrollToIndexFailed = error => {
+  _scrollToIndexFailed = (error) => {
     console.log('error while scrolling....', error);
     const offset = error.averageItemLength * error.index;
     this.order_details_flatlist_ref.scrollToOffset({offset});
@@ -147,7 +147,7 @@ export default class OrderDetails extends Component {
           },
         },
       )
-      .then(res => {
+      .then((res) => {
         console.log('Product details', res);
         if (res.data.product_details.length) {
           this.setState({additionalDetails: res.data.additional_info});
@@ -163,7 +163,7 @@ export default class OrderDetails extends Component {
           this.setState({error_msg: 'No data found!'});
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log({...err});
         this.setState({
           error_msg: err.response.data.message || 'Error occured!',
@@ -171,21 +171,21 @@ export default class OrderDetails extends Component {
       });
   };
 
-  _onUpdateStatusModal = update_status_modal_props_info => {
+  _onUpdateStatusModal = (update_status_modal_props_info) => {
     this.setState({
       update_status_modal_props_info: update_status_modal_props_info,
       is_update_status_modal_visible: true,
     });
   };
 
-  _onStatusHistoryModal = status_history_modal_props_info => {
+  _onStatusHistoryModal = (status_history_modal_props_info) => {
     this.setState({
       status_history_modal_props_info: status_history_modal_props_info,
       is_status_history_modal_visible: true,
     });
   };
 
-  _onShipmentTrackingLinkPress = async redirection_url => {
+  _onShipmentTrackingLinkPress = async (redirection_url) => {
     const supported = Linking.canOpenURL(redirection_url);
     if (supported) {
       await Linking.openURL(redirection_url);
@@ -686,9 +686,9 @@ export default class OrderDetails extends Component {
               data={orderProductDetails}
               renderItem={this._onRenderOrderProductDetails}
               onScrollToIndexFailed={this._scrollToIndexFailed}
-              keyExtractor={item => `${item.uuid}`}
+              keyExtractor={(item) => `${item.uuid}`}
               contentContainerStyle={{paddingBottom: 40}}
-              ref={comp => (this.order_details_flatlist_ref = comp)}
+              ref={(comp) => (this.order_details_flatlist_ref = comp)}
             />
             {this.state.is_update_status_modal_visible ? (
               <UpdateStatusModal
@@ -715,7 +715,7 @@ export default class OrderDetails extends Component {
   }
 }
 
-const _onToastMessageSent = message => {
+const _onToastMessageSent = (message) => {
   ToastAndroid.showWithGravityAndOffset(
     message,
     ToastAndroid.SHORT,
@@ -775,7 +775,7 @@ class UpdateStatusModal extends Component {
     });
   }
 
-  _onStatusSelectionPress = index => {
+  _onStatusSelectionPress = (index) => {
     const {
       product_next_order_status,
       product_current_order_status,
@@ -841,7 +841,7 @@ class UpdateStatusModal extends Component {
 
     axios
       .post(
-        UNIVERSAL_ENTRY_POINT_ADDRESS + API_UPDATE_ORDER_ITEM_STATUS_KEY,
+        UNIVERSAL_ENTRY_POINT_ADDRESS + API_UPDATE_ORDER_ITEM_STAUTS_KEY,
         data_header,
         {
           headers: {
@@ -849,13 +849,13 @@ class UpdateStatusModal extends Component {
           },
         },
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         _onToastMessageSent(res.data.message);
         this.props.onModalClose();
         this.props.onReloadData();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log({...err});
         alert(err.response.data.message);
         this.props.onModalClose();
@@ -896,13 +896,13 @@ class UpdateStatusModal extends Component {
           },
         },
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         _onToastMessageSent(res.data.message);
         this.props.onModalClose();
         this.props.onReloadData();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log({...err});
         alert(err.response.data.message);
         this.props.onModalClose();
@@ -1184,7 +1184,7 @@ class UpdateStatusModal extends Component {
                           numberOfLines={2}
                           label="Reason..."
                           style={{backgroundColor: 'white'}}
-                          onChangeText={text =>
+                          onChangeText={(text) =>
                             this.setState({reason_to_deny_return_request: text})
                           }
                         />
@@ -1220,7 +1220,7 @@ class UpdateStatusModal extends Component {
                           autoCapitalize="none"
                           placeholder="https://www.shipment-tracker.com"
                           style={{backgroundColor: 'white'}}
-                          onChangeText={link =>
+                          onChangeText={(link) =>
                             this.setState({shipment_tracking_link: link})
                           }
                         />

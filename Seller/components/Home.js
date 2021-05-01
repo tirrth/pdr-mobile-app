@@ -69,7 +69,7 @@ const totalRevenue = [
 ];
 
 class HeaderIcons extends Component {
-  _navigationFunc = navigation => {
+  _navigationFunc = (navigation) => {
     const {push} = this.props.navigation;
     push(navigation);
   };
@@ -344,7 +344,7 @@ class Home extends Component {
             data={this._formatData(totalRevenue, 2)}
             ListHeaderComponent={this._listHeaderComponent}
             renderItem={this._onRenderItem}
-            keyExtractor={item => `${item.title}`}
+            keyExtractor={(item) => `${item.title}`}
             numColumns={2}
             key={'GridView'}
             contentContainerStyle={{paddingBottom: 200}}
@@ -396,16 +396,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     profile_info: state.profile_info,
     total_notifications_count: state.total_notifications_count,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    changeProfileInfo: profile_info => {
+    changeProfileInfo: (profile_info) => {
       dispatch({type: 'CHANGE_PROFILE_INFO', payload: profile_info});
     },
     // changeTotalNotificationsCount: (count) => {

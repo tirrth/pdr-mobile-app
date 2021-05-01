@@ -91,20 +91,20 @@ function notificationListeners(on_notification_press_callback) {
   // ---------------------------------------- FIREBASE NOTIFICATION CODE -------------------------------------
   messaging()
     .hasPermission()
-    .then(enabled => {
+    .then((enabled) => {
       if (!enabled) {
         requestUserPermission();
       }
 
       messaging()
         .getToken()
-        .then(token => {
+        .then((token) => {
           console.log('device-token', token);
           saveTokenToDatabase(token);
         });
 
       removeOnMessageNotifyEventListener = messaging().onMessage(
-        remoteMessage => {
+        (remoteMessage) => {
           console.log('Message handled in the FOREGROUND!', remoteMessage);
           const {redirect_to, notification_uuid} = remoteMessage.data;
           PushNotification.localNotification({
@@ -134,11 +134,11 @@ function notificationListeners(on_notification_press_callback) {
       );
 
       // Register background handler
-      messaging().setBackgroundMessageHandler(async remoteMessage => {
+      messaging().setBackgroundMessageHandler(async (remoteMessage) => {
         console.log('Message handled in the background!', remoteMessage);
       });
 
-      messaging().onNotificationOpenedApp(remoteMessage => {
+      messaging().onNotificationOpenedApp((remoteMessage) => {
         console.log(
           'Notification caused app to open from background state:',
           remoteMessage,
@@ -157,7 +157,7 @@ function notificationListeners(on_notification_press_callback) {
       // Check whether an initial notification is available
       messaging()
         .getInitialNotification()
-        .then(async remoteMessage => {
+        .then(async (remoteMessage) => {
           if (remoteMessage) {
             console.log(
               'Notification caused app to open from quit state:',
@@ -175,7 +175,7 @@ function notificationListeners(on_notification_press_callback) {
           }
         });
 
-      return messaging().onTokenRefresh(token => {
+      return messaging().onTokenRefresh((token) => {
         console.log('refreshed device token!!');
         saveTokenToDatabase(token);
       });
@@ -207,7 +207,7 @@ const AuthStackScreens = () => {
   React.useEffect(() => {
     // AsyncStorage.removeItem('token');
     AsyncStorage.getItem('alreadyLaunched')
-      .then(value => {
+      .then((value) => {
         if (value == null) {
           AsyncStorage.setItem('alreadyLaunched', 'true'); // No need to wait for `setItem` to finish, although you might want to handle errors
           setIsFirstLaunch(true);
@@ -215,7 +215,7 @@ const AuthStackScreens = () => {
           setIsFirstLaunch(false);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setIsFirstLaunch(null);
       });
@@ -373,42 +373,42 @@ async function saveTokenToDatabase(device_token) {
 
     documentRef
       .get()
-      .then(async doc => {
-        const async_device_token = await AsyncStorage.getItem('device_token');
+      .then(async (doc) => {
+        const asyn_device_token = await AsyncStorage.getItem('device_token');
         if (doc.exists) {
-          if (async_device_token) {
+          if (asyn_device_token) {
             documentRef
               .update({
                 device_tokens: firestore.FieldValue.arrayRemove(
-                  async_device_token,
+                  asyn_device_token,
                 ),
               })
-              .then(res => null)
-              .catch(err => null);
+              .then((res) => null)
+              .catch((err) => null);
           }
 
           documentRef
             .update({
               device_tokens: firestore.FieldValue.arrayUnion(device_token),
             })
-            .then(async res => {
+            .then(async (res) => {
               // console.log(res);
               await AsyncStorage.setItem('device_token', device_token);
             })
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
         } else {
           documentRef
             .set({
               device_tokens: firestore.FieldValue.arrayUnion(device_token),
             })
-            .then(async res => {
+            .then(async (res) => {
               // console.log(res);
               await AsyncStorage.setItem('device_token', device_token);
             })
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log({...err});
       });
   }
@@ -433,7 +433,7 @@ const AppDrawerScreens = ({token}) => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(async res => {
+      .then(async (res) => {
         console.log(res);
         await store.dispatch({
           type: 'CHANGE_PROFILE_INFO',
@@ -441,42 +441,42 @@ const AppDrawerScreens = ({token}) => {
         });
         return res;
       })
-      .catch(err => {
+      .catch((err) => {
         throw err;
       });
   };
 
   React.useEffect(() => {
     _getUserDetails()
-      .then(async res => {
+      .then(async (res) => {
         _getTotalNotificationsCount(store.getState().profile_info)
-          .then(async total_notifications_count => {
+          .then(async (total_notifications_count) => {
             await store.dispatch({
               type: 'CHANGE_TOTAL_NOTIFICATIONS_COUNT',
               payload: total_notifications_count,
             });
 
-            notificationListeners(notification_data => {
+            notificationListeners((notification_data) => {
               _onNotificationClicked(notification_data);
             });
           })
-          .catch(err => console.log(err))
+          .catch((err) => console.log(err))
           .finally(() => SplashScreen.hide());
       })
-      .catch(err => {
+      .catch((err) => {
         throw err;
       });
 
     return () => {
       console.log(
-        '%cRemoving on message Notification event listener....',
+        '%cremoving on message Notification event listener....',
         'color: #DB4437; font-size: x-large; font-weight: bold; text-transform: capitalize',
       );
       removeOnMessageNotifyEventListener();
     };
   }, []);
 
-  const _onNotificationClicked = notification_data => {
+  const _onNotificationClicked = (notification_data) => {
     _onNotificationPress(notification_data, store.getState().profile_info)
       .then(async () => {
         if (store.getState().total_notifications_count > 0) {
@@ -486,7 +486,7 @@ const AppDrawerScreens = ({token}) => {
           });
         }
       })
-      .catch(err => console.log(null));
+      .catch((err) => console.log(null));
   };
 
   // React.useEffect(() => {
@@ -502,7 +502,7 @@ const AppDrawerScreens = ({token}) => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      drawerContent={props => <DrawerContent {...props} />}>
+      drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="HomeRoot" component={HomeStackScreen} />
       {/* <Drawer.Screen name="Orders" component={OrderStackScreens} options={{ headerShown: false, drawerIcon: ({ color, size}) => (<Icon name="cart" style={{fontSize:size-2, color:color, marginLeft:10}} />) }}/>
         <Drawer.Screen name="Profile" component={ProfileDrawerScreens} options={{ headerShown: false, drawerIcon: ({ color, size}) => (<Icon name="person" style={{fontSize:size-2, color:color, marginLeft:10}} />) }}/>
@@ -513,7 +513,7 @@ const AppDrawerScreens = ({token}) => {
   );
 };
 
-const App = props => {
+const App = (props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [userToken, setUserToken] = React.useState(null);
 
@@ -571,13 +571,13 @@ const App = props => {
 
     _reloadAppComponent();
     _getRefreshToken()
-      .then(async refresh_token => {
+      .then(async (refresh_token) => {
         console.log('refresh token --> ', refresh_token);
         await AsyncStorage.setItem('token', refresh_token);
         setUserToken(refresh_token);
         setIsLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         _removeStoredToken();
         setIsLoading(false);
@@ -592,7 +592,7 @@ const App = props => {
           barStyle={
             Platform.OS === 'android' ? 'dark-content' : 'light-content'
           }
-          backgroundColor="#ffffff"
+          backgroundColor="white"
         />
         <NavigationContainer
           linking={linking}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/launch_screen" />
+
+    <ImageView android:layout_width="220dp" android:layout_height="220dp" android:src="@drawable/logo" android:scaleType="centerCrop" android:layout_centerInParent="true" />
+
+    <com.agrawalsuneet.dotsloader.loaders.LazyLoader
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:lazyloader_animDur="400"
+        app:lazyloader_dotsDist="6dp"
+        app:lazyloader_dotsRadius="2dp"
+        app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+    />
+</RelativeLayout>

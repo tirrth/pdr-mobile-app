@@ -6,11 +6,18 @@ platform :ios, '10.0'
 target 'PDRBusiness' do
   config = use_native_modules!
 
-  use_react_native!(
-    :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
-  )
+  use_react_native!(:path => config["reactNativePath"])
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
+  pod 'react-native-html-to-pdf', :path => '../node_modules/react-native-html-to-pdf'
+
+
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
   target 'PDRBusinessTests' do
     inherit! :complete
@@ -20,10 +27,18 @@ target 'PDRBusiness' do
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable the next line.
-  use_flipper!()
-
+  # you should disable these next few lines.
+  use_flipper!
   post_install do |installer|
-    react_native_post_install(installer)
+    flipper_post_install(installer)
+  end
+end
+
+target 'PDRBusiness-tvOS' do
+  # Pods for PDRBusiness-tvOS
+
+  target 'PDRBusiness-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
   end
 end

@@ -1,0 +1,63 @@
+{
+  "_from": "rn-range-slider",
+  "_id": "rn-range-slider@2.0.3",
+  "_inBundle": false,
+  "_integrity": "sha512-tQE8aZ31VexrKfqFPMIr6Et9xrtpRJzo0sLoCB5HNRtXZ9J/NM9FAWSidcfS8wOep1hIf7pY/BTEh8tw5iDcQw==",
+  "_location": "/rn-range-slider",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "rn-range-slider",
+    "name": "rn-range-slider",
+    "escapedName": "rn-range-slider",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/rn-range-slider/-/rn-range-slider-2.0.3.tgz",
+  "_shasum": "bed56fdac9bff5fd97a03846442077c9d3eb3061",
+  "_spec": "rn-range-slider",
+  "_where": "/Users/tirth/Documents/ReactNative/pdr-mobile-app/Buyer",
+  "author": {
+    "name": "Tigran Sahakyan",
+    "email": "mail.of.tigran@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/githuboftigran/rn-range-slider/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A highly optimized pure JS implementation of Range Slider for React Native",
+  "devDependencies": {},
+  "homepage": "https://github.com/githuboftigran/rn-range-slider",
+  "keywords": [
+    "react",
+    "native",
+    "react-native",
+    "react-component",
+    "react-native-component",
+    "android",
+    "ios",
+    "custom",
+    "range",
+    "slider",
+    "seekbar"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "rn-range-slider",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/githuboftigran/rn-range-slider.git"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "version": "2.0.3"
+}

@@ -12,9 +12,6 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
-// To use react-native-splash-screen functionalities
-#import "RNSplashScreen.h"
-
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 static void InitializeFlipper(UIApplication *application) {
@@ -36,19 +33,12 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-    didFinishLaunchingWithOptions:launchOptions];
-
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"PDRBusiness"
                                             initialProperties:nil];
 
-  if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-      rootView.backgroundColor = [UIColor whiteColor];
-  }
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
@@ -56,9 +46,21 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  [RNSplashScreen show];
+  // [[FBSDKApplicationDelegate sharedInstance] application:application
+  //                          didFinishLaunchingWithOptions:launchOptions];
+
   return YES;
 }
+
+// - (BOOL)application:(UIApplication *)application
+//             openURL:(NSURL *)url
+//             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+// {
+//   [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                                  openURL:url
+//                                                  options:options];
+//   return YES;
+// }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
